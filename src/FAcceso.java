@@ -2,12 +2,11 @@
 import javax.swing.JOptionPane;
 
 
-
 public class FAcceso extends javax.swing.JFrame {
 
     Conexion cnx = new Conexion();
     
-     String rol = "Select rol FROM usuarios WHERE nom_usr = '%s'AND nip = '%s'";
+     String rol = "SELECT puesto FROM empleados WHERE nom_usr = '%s' AND nip = '%s' ";
 
      int intentos = 0;
             
@@ -17,7 +16,7 @@ public class FAcceso extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(this);
         
-        if (cnx.conectar("localhost", "redmeteoro", "root", "") == 1) {
+        if (cnx.conectar("localhost", "fondatel", "root", "") == 1) {
         } else {
             JOptionPane.showMessageDialog(this, "Sin conexión. La ventana se cerrará...");
             System.exit(0);
@@ -36,13 +35,12 @@ public class FAcceso extends javax.swing.JFrame {
         TPassword = new javax.swing.JPasswordField();
         BAceptar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         BCancelar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("REDMeteoro");
+        setTitle("FONDATEL");
         setResizable(false);
 
         jLabel1.setText("USUARIO");
@@ -58,34 +56,25 @@ public class FAcceso extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Update.png"))); // NOI18N
-
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 102));
-        jLabel4.setText("REDMeteoro");
+        jLabel4.setText("FondaTel");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(25, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(54, 54, 54))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(23, 23, 23))))
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(97, 97, 97)
                 .addComponent(jLabel4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(124, Short.MAX_VALUE))
         );
 
         BCancelar.setText("CANCELAR");
@@ -99,7 +88,7 @@ public class FAcceso extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(BAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -142,46 +131,51 @@ public class FAcceso extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BAceptarActionPerformed
-        String usr = TUsuario.getText();
-        String nip = TPassword.getText();
-        
-        String sql = String.format(rol,usr, nip);
+   String usr = TUsuario.getText();
+        String nip = new String(TPassword.getPassword());
+
+        String sql = String.format(rol, usr, nip);
         String tipo = cnx.obtenerDato(sql);
-        
-        switch(tipo){
-            case"administrador":
-                FAdministrador fa = new FAdministrador();
+
+        switch (tipo) {
+            case "gerente":
+                FAdmin fa = new FAdmin();
                 this.dispose();
                 cnx.desconectar();
                 fa.setVisible(true);
                 break;
-                
-            case"visitante":
-                FRegistrados fr = new FRegistrados();
+
+            case "meseros":
+                FMeseros fm = new FMeseros();
                 this.dispose();
                 cnx.desconectar();
-                fr.setVisible(true);
+                fm.setVisible(true);
                 break;
-                
+
+            case "cocineros":
+                FCocineros fc = new FCocineros();
+                this.dispose();
+                cnx.desconectar();
+                fc.setVisible(true);
+                break;
+
+            case "cajeros":
+                FCajeros fj = new FCajeros();
+                this.dispose();
+                cnx.desconectar();
+                fj.setVisible(true);
+                break;
+
             case "":
                 JOptionPane.showMessageDialog(this, "Credenciales incorrectas");
                 intentos++;
                 if (intentos >= 3) {
-                    JOptionPane.showMessageDialog(this, "Intentos exedidos");
+                    JOptionPane.showMessageDialog(this, "Intentos excedidos");
                     System.exit(0);
                 }
-                
-                
-                
-                
                 break;
-
-                
-                
         }
-            
-        
-        
+    
     }//GEN-LAST:event_BAceptarActionPerformed
 
     /**
@@ -226,9 +220,10 @@ public class FAcceso extends javax.swing.JFrame {
     private javax.swing.JTextField TUsuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
+
+    
 }
