@@ -189,20 +189,20 @@ public class FAlimentos extends javax.swing.JFrame {
     }//GEN-LAST:event_TFNombreActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Alimentos bit = new Alimentos(
-                null,
-                TFIDAlimentos.getText(),
-                TFNombre.getText(),
-                TFDescripcion.getText(),
-                TFPrecio.getText()
-        );
-
-        if (bit.insertar(cnx.con) == 1) {
-            JOptionPane.showMessageDialog(this, "Alimento registrado");
-            this.dispose();
-        } else {
-            JOptionPane.showMessageDialog(this, "El alimento no se puedo registrar");
-        }
+//        Alimentos bit = new Alimentos(
+//                null,
+//                TFIDAlimentos.getText(),
+//                TFNombre.getText(),
+//                TFDescripcion.getText(),
+//                TFPrecio.getText()
+//        );
+//
+//        if (bit.insertar(cnx.con) == 1) {
+//            JOptionPane.showMessageDialog(this, "Alimento registrado");
+//            this.dispose();
+//        } else {
+//            JOptionPane.showMessageDialog(this, "El alimento no se puedo registrar");
+//        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
